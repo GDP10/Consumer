@@ -73,7 +73,6 @@ public class Consumer implements NotificationConsumer {
 	}
 
 	public void notify(Notify notification) {
-		System.out.println(notification);
 		List<NotificationMessageHolderType> notificationMessage = notification.getNotificationMessage();
 		if (!notificationMessage.isEmpty()) {
 			NotificationMessageHolderType notificationMessageHolder = notificationMessage.get(0);
