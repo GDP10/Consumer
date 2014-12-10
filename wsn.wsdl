@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:wsn-br="http://docs.oasis-open.org/wsn/br-2"
+  xmlns:wsn-brw="http://docs.oasis-open.org/wsn/brw-2"
+  xmlns:wsn-b="http://docs.oasis-open.org/wsn/b-2"
+  xmlns:wsn-bw="http://docs.oasis-open.org/wsn/bw-2"
+  xmlns:tns="http://robinjam.net/aes/wsn"
+  name="AES-WS-BrokeredNotification"
+  targetNamespace="http://robinjam.net/aes/wsn">
+
+  <wsdl:import namespace="http://docs.oasis-open.org/wsn/brw-2" location="http://docs.oasis-open.org/wsn/brw-2.wsdl"/>
+  <wsdl:import namespace="http://docs.oasis-open.org/wsn/bw-2" location="http://docs.oasis-open.org/wsn/bw-2.wsdl"/>
+
+  <wsdl:binding name="NotificationConsumerSoap" type="wsn-bw:NotificationConsumer">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <wsdl:operation name="Notify">
+      <wsdl:input><soap:body use="literal"/></wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="NotificationConsumerService">
+    <wsdl:port name="NotificationConsumerPort" binding="tns:NotificationConsumerSoap">
+      <soap:address location="http://robinjam.net/aes/wsn"/>
+    </wsdl:port>
+  </wsdl:service>
+
+  <wsdl:binding name="NotificationBrokerSoap" type="wsn-brw:NotificationBroker">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <wsdl:operation name="Subscribe">
+      <wsdl:input><soap:body use="literal"/></wsdl:input>
+      <wsdl:output><soap:body use="literal"/></wsdl:output>
+      <wsdl:fault name="ResourceUnknownFault"><soap:fault use="literal" name="ResourceUnknownFault"/></wsdl:fault>
+      <wsdl:fault name="InvalidFilterFault"><soap:fault use="literal" name="InvalidFilterFault"/></wsdl:fault>
+      <wsdl:fault name="TopicExpressionDialectUnknownFault"><soap:fault use="literal" name="TopicExpressionDialectUnknownFault"/></wsdl:fault>
+      <wsdl:fault name="InvalidTopicExpressionFault"><soap:fault use="literal" name="InvalidTopicExpressionFault"/></wsdl:fault>
+      <wsdl:fault name="TopicNotSupportedFault"><soap:fault use="literal" name="TopicNotSupportedFault"/></wsdl:fault>
+      <wsdl:fault name="InvalidProducerPropertiesExpressionFault"><soap:fault use="literal" name="InvalidProducerPropertiesExpressionFault"/></wsdl:fault>
+      <wsdl:fault name="InvalidMessageContentExpressionFault"><soap:fault use="literal" name="InvalidMessageContentExpressionFault"/></wsdl:fault>
+      <wsdl:fault name="UnacceptableInitialTerminationTimeFault"><soap:fault use="literal" name="UnacceptableInitialTerminationTimeFault"/></wsdl:fault>
+      <wsdl:fault name="SubscribeCreationFailedFault"><soap:fault use="literal" name="SubscribeCreationFailedFault"/></wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="NotificationBrokerService">
+    <wsdl:port name="NotificationBrokerPort" binding="tns:NotificationBrokerSoap">
+      <soap:address location="http://robinjam.net/aes/wsn"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
