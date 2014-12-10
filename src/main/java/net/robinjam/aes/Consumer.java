@@ -52,12 +52,17 @@ import org.xml.sax.SAXException;
 public class Consumer implements NotificationConsumer {
 	
 	public static void main(String[] args) throws NotifyMessageNotSupportedFault, UnacceptableInitialTerminationTimeFault, ResourceUnknownFault, InvalidTopicExpressionFault, InvalidMessageContentExpressionFault, TopicNotSupportedFault, TopicExpressionDialectUnknownFault, InvalidProducerPropertiesExpressionFault, SubscribeCreationFailedFault, UnrecognizedPolicyRequestFault, InvalidFilterFault, UnsupportedPolicyRequestFault, SAXException, IOException, ParserConfigurationException {
+		if (args.length != 2) {
+			System.err.println("Usage: [consumer endpoint] [WSN broker wsdl location]");
+			System.err.println("Example: http://localhost:9000/wsn/NotificationConsumer http://localhost:8080/aes-0.0.1-SNAPSHOT/aes/NotificationBroker?wsdl");
+			return;
+		}
 		Consumer consumer = new Consumer();
 		Endpoint endpoint = Endpoint.create(consumer);
-		endpoint.publish("http://localhost:9000/wsn/NotificationConsumer");
+		endpoint.publish(args[0]);
 		URL wsdlLocation = null;
 		try {
-			wsdlLocation = new URL("http://localhost:8080/aes-0.0.1-SNAPSHOT/aes/NotificationBroker?wsdl");
+			wsdlLocation = new URL(args[1]);
 		} catch (MalformedURLException e) {}
 		NotificationBrokerService notificationBrokerService = new NotificationBrokerService(wsdlLocation);
 		NotificationBroker notificationBroker = notificationBrokerService.getNotificationBrokerPort();
